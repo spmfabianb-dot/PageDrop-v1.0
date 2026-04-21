@@ -75,17 +75,17 @@ body{font-family:"DM Sans",sans-serif;background:var(--bg);color:var(--text);hei
 .ed-wrap{display:flex;flex:1;overflow:hidden;min-height:0}
 
 /* CANVAS */
-.can-area{flex:1;background:var(--canbg);overflow-y:auto;overflow-x:hidden;padding:28px 20px;display:flex;flex-direction:column;align-items:center;min-height:0;transition:background .25s;position:relative}
-.can-area::-webkit-scrollbar{width:4px}
+.can-area{flex:1;background:var(--canbg);overflow-y:auto;overflow-x:auto;padding:28px 20px;display:flex;flex-direction:column;align-items:center;min-height:0;transition:background .25s;position:relative}
+.can-area::-webkit-scrollbar{width:6px}
 .can-area::-webkit-scrollbar-thumb{background:var(--border2);border-radius:4px}
 
 /* iframe frame wrapper */
-.pfw{position:relative;background:#fff;border-radius:12px;border:1px solid rgba(0,0,0,.1);box-shadow:0 8px 40px rgba(0,0,0,.3);overflow:hidden;transition:width .3s}
+.pfw{position:relative;background:#fff;border-radius:12px;border:1px solid rgba(0,0,0,.1);box-shadow:0 8px 40px rgba(0,0,0,.3);overflow:visible;transition:width .3s;flex-shrink:0}
 .pfw.desktop{width:100%;max-width:1200px}
 .pfw.mobile{width:390px;border-radius:20px;border:3px solid #333;box-shadow:0 8px 40px rgba(0,0,0,.5)}
 
-#page-frame{width:100%;border:none;display:block;min-height:200px}
-.ov-layer{position:absolute;top:0;left:0;width:100%;pointer-events:none;z-index:10}
+#page-frame{width:100%;border:none;display:block;min-height:200px;overflow:hidden;border-radius:12px}
+.ov-layer{position:absolute;top:0;left:0;width:100%;pointer-events:none;z-index:10;overflow:visible}
 .ov-sec{position:absolute;left:0;right:0;box-sizing:border-box;pointer-events:auto;cursor:default}
 .ov-sec:hover{outline:2px dashed rgba(232,80,10,.3);outline-offset:-1px}
 .ov-sec.sel-s{outline:2px solid var(--brand);outline-offset:-1px}
@@ -155,9 +155,11 @@ textarea.pi{height:64px;resize:vertical;font-family:"DM Mono",monospace;font-siz
 .img-btn{width:100%;padding:10px;border:1.5px dashed var(--border2);border-radius:8px;background:var(--surface);color:var(--text2);font-size:12.5px;cursor:pointer;font-family:"DM Sans",sans-serif;transition:all .15s;display:flex;align-items:center;justify-content:center;gap:7px;margin-bottom:8px}
 .img-btn:hover{border-color:var(--brand2);color:var(--brand2)}
 .img-btn svg{width:15px;height:15px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round}
-.del-btn{width:100%;padding:8px;border:1px solid rgba(200,40,40,.3);border-radius:7px;background:rgba(200,40,40,.08);color:#e05555;font-size:12.5px;cursor:pointer;font-family:"DM Sans",sans-serif;display:flex;align-items:center;justify-content:center;gap:7px;transition:all .15s;margin-top:8px}
+.del-btn{width:100%;padding:8px;border:1px solid rgba(200,40,40,.3);border-radius:7px;background:rgba(200,40,40,.08);color:#e05555;font-size:12.5px;cursor:pointer;font-family:"DM Sans",sans-serif;display:flex;align-items:center;justify-content:center;gap:7px;transition:all .15s;margin-top:6px}
 .del-btn:hover{background:rgba(200,40,40,.18);border-color:rgba(200,40,40,.5)}
-.del-btn svg{width:14px;height:14px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.del-btn svg,.dup-btn svg{width:14px;height:14px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.dup-btn{width:100%;padding:8px;border:1px solid var(--border);border-radius:7px;background:var(--surface);color:var(--text2);font-size:12.5px;cursor:pointer;font-family:"DM Sans",sans-serif;display:flex;align-items:center;justify-content:center;gap:7px;transition:all .15s;margin-top:6px}
+.dup-btn:hover{border-color:var(--border2);color:var(--text)}
 /* mobile-only indicator */
 .mob-indicator{display:inline-block;padding:2px 7px;border-radius:4px;background:rgba(60,130,220,.15);color:#4a9de0;font-size:10px;font-weight:600;letter-spacing:.05em;margin-left:6px}
 
@@ -199,6 +201,20 @@ textarea.pi{height:64px;resize:vertical;font-family:"DM Mono",monospace;font-siz
 
 .notify{position:fixed;bottom:22px;right:22px;background:var(--bg2);border:1px solid var(--border2);color:var(--text);padding:10px 18px;border-radius:9px;font-size:13px;opacity:0;transform:translateY(8px);transition:all .25s;pointer-events:none;z-index:999;box-shadow:0 4px 20px rgba(0,0,0,.3)}
 .notify.show{opacity:1;transform:translateY(0)}
+
+/* Editor mode toggle */
+.ed-toggle{display:flex;align-items:center;gap:7px;padding:6px 12px;border-radius:8px;border:1px solid var(--border);background:var(--surface);color:var(--text2);cursor:pointer;font-size:12.5px;font-weight:500;font-family:"DM Sans",sans-serif;transition:all .2s;user-select:none}
+.ed-toggle:hover{border-color:var(--border2);color:var(--text)}
+.ed-toggle.active{border-color:var(--brand);background:rgba(232,80,10,.12);color:var(--brand2)}
+.ed-toggle svg{width:14px;height:14px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+/* When editor mode is OFF: hide overlay, sidebar, props panel */
+body.no-edit .ov-layer{display:none!important}
+body.no-edit .sb{display:none!important}
+body.no-edit .pp{display:none!important}
+body.no-edit .add-strip{display:none!important}
+body.no-edit .can-area{padding:0!important}
+body.no-edit .pfw{border-radius:0!important;box-shadow:none!important;border:none!important}
+body.no-edit #pfw{max-width:100%!important}
 </style>
 </head>
 <body>
@@ -229,6 +245,10 @@ textarea.pi{height:64px;resize:vertical;font-family:"DM Mono",monospace;font-siz
     </button>
     <button class="ib" id="rb" title="Redo (Ctrl+Y)" onclick="redo()" disabled>
       <svg viewBox="0 0 24 24"><path d="M21 7v6h-6"/><path d="M21 13C19 7 13 4 7 6S-1 14 2 20"/></svg>
+    </button>
+    <button class="ed-toggle active" id="ed-toggle-btn" onclick="toggleEditorMode(this)" title="Toggle editor overlays on/off">
+      <svg viewBox="0 0 24 24"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
+      Edit
     </button>
     <button class="btn" onclick="savePage()">
       <svg viewBox="0 0 24 24"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/><polyline points="7 3 7 8 15 8"/></svg>Save
@@ -357,8 +377,9 @@ let selSecId = null, selElPath = null;
 let pendImgPath = null;
 let insertAfterIdx = null;
 let importedCss = "";
-let viewport = "desktop"; // "desktop" | "mobile"
-let mobileOverrides = {}; // {secId_elIdx: {prop:val}}
+let importedScripts = []; // [{src, code}] preserved scripts from uploaded HTML
+let viewport = "desktop";
+let mobileOverrides = {};
 
 // ═══════════════════════════════
 // IFRAME UTILS
@@ -366,25 +387,130 @@ let mobileOverrides = {}; // {secId_elIdx: {prop:val}}
 const fr = () => document.getElementById("page-frame");
 const fd = () => fr().contentDocument;
 
-function writeFrame(bodyHtml, css) {
+function writeFrame(bodyHtml, css, scripts) {
   const doc = fd();
+
+  // ── EDITOR RESET CSS ──────────────────────────────────
+  // Forces all scroll-animation-hidden elements visible so:
+  // 1. getBoundingClientRect() returns correct positions
+  // 2. Overlay boxes appear in the right place
+  // 3. The full page height is measurable immediately
+  const EDITOR_RESET = `
+/* PageDrop Editor Reset — injected at top, overrides imported CSS */
+
+/* Force all animation initial states to their final visible state.
+   Scroll-triggered JS sets opacity/transform, but in the editor we
+   want everything visible from the start. */
+*,
+*[class],
+*[style] {
+  opacity: 1 !important;
+  transform: none !important;
+  visibility: visible !important;
+  pointer-events: auto !important;
+  transition: none !important;
+  animation: none !important;
+}
+
+/* Restore specific opacity classes that are intentionally semi-transparent */
+.t-label   { opacity: 0.45 !important; }
+.t-body    { opacity: 0.75 !important; }
+.t-small   { opacity: 0.5  !important; }
+.t-tag     { opacity: 0.6  !important; }
+.t-tl-body { opacity: 0.7  !important; }
+.t-quote   { opacity: 1    !important; }
+.t-trust   { opacity: 1    !important; }
+
+/* Undo position:fixed/sticky — they detach from flow and break height measurement */
+*[style*="position:fixed"],
+*[style*="position: fixed"] {
+  position: relative !important;
+}
+
+/* Ensure clamp()-based sizes work — don't reset font-size */
+`;
+
   doc.open();
   doc.write(`<!DOCTYPE html><html><head><meta charset="UTF-8">
 <style>
-*{box-sizing:border-box;margin:0;padding:0}
-body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;overflow-x:hidden}
-img{max-width:100%;height:auto}
+${EDITOR_RESET}
 ${css||""}
 </style></head><body>${bodyHtml}</body></html>`);
   doc.close();
+
+  // Re-inject scripts after document write so they actually execute
+  if (scripts && scripts.length) {
+    scripts.forEach(sc => {
+      try {
+        const s = doc.createElement("script");
+        if (sc.src) { s.src = sc.src; s.async = false; }
+        else { s.textContent = sc.code; }
+        doc.body.appendChild(s);
+      } catch(e) { console.warn("script inject:", e); }
+    });
+  }
 }
 
 function syncHeight() {
   try {
-    const h = Math.max(fd().body.scrollHeight, 100);
+    const doc = fd();
+    if (!doc || !doc.body) return;
+    doc.body.style.height = "auto";
+    doc.documentElement.style.height = "auto";
+
+    // Walk all elements, compute absolute bottom via offsetParent chain
+    let maxBottom = 0;
+    doc.body.querySelectorAll("*").forEach(el => {
+      try {
+        if (!el.offsetHeight) return;
+        let top = 0, cur = el;
+        while (cur && cur.tagName !== "BODY") {
+          top += cur.offsetTop || 0;
+          cur = cur.offsetParent;
+        }
+        const bottom = top + el.offsetHeight;
+        if (bottom > maxBottom) maxBottom = bottom;
+      } catch(e) {}
+    });
+
+    const h = Math.max(maxBottom, doc.body.scrollHeight, 300);
     fr().style.height = h + "px";
     document.getElementById("ov-layer").style.height = h + "px";
-  } catch(e){}
+    document.getElementById("pfw").style.minHeight = h + "px";
+  } catch(e) {}
+}
+
+function attachImageLoadListeners() {
+  try {
+    const fdoc = fd();
+    let rebuildTimer = null;
+    const scheduleRebuild = () => {
+      clearTimeout(rebuildTimer);
+      rebuildTimer = setTimeout(() => { syncHeight(); buildOverlay(); }, 120);
+    };
+    fdoc.querySelectorAll("img").forEach(img => {
+      if (!img.complete || !img.naturalHeight) {
+        img.addEventListener("load",  scheduleRebuild, { once: true });
+        img.addEventListener("error", scheduleRebuild, { once: true });
+      }
+    });
+  } catch(e) {}
+}
+
+let _syncInterval = null;
+function startSyncLoop() {
+  if (_syncInterval) clearInterval(_syncInterval);
+  attachImageLoadListeners();
+  let ticks = 0;
+  _syncInterval = setInterval(() => {
+    if (ticks < 5) forceVisible(); // force during first 1.75s
+    syncHeight();
+    ticks++;
+    if (ticks === 15) {
+      clearInterval(_syncInterval);
+      _syncInterval = setInterval(() => { syncHeight(); buildOverlay(); }, 3000);
+    }
+  }, 350);
 }
 
 // ═══════════════════════════════
@@ -443,9 +569,14 @@ function renderPage() {
     return `<div data-sec="${s.id}">${html}</div>`;
   }).join("");
 
-  writeFrame(bodyHtml, importedCss + "\n" + extraCss);
-  fr().onload = () => { syncHeight(); buildOverlay(); };
-  setTimeout(() => { syncHeight(); buildOverlay(); }, 120);
+  writeFrame(bodyHtml, importedCss + "\n" + extraCss, importedScripts);
+  fr().onload = () => {
+    forceVisible();
+    attachImageLoadListeners();
+    setTimeout(()=>{ syncHeight(); buildOverlay(); injectMobileCss(); }, 100);
+    startSyncLoop();
+  };
+  setTimeout(() => { forceVisible(); syncHeight(); buildOverlay(); injectMobileCss(); startSyncLoop(); }, 300);
 }
 
 function tagPdElements(html, secId) {
@@ -458,64 +589,96 @@ function getHtml(s) {
 }
 
 // ═══════════════════════════════
-// AGGRESSIVE injectPd
-// Marks EVERY node that has visible content or style
+// AGGRESSIVE injectPd v2
+// Strategy: mark EVERY element that either:
+//   (a) has direct visible text content, OR
+//   (b) is a "leaf" (no element children) with any content/style, OR  
+//   (c) is a known semantic text tag, OR
+//   (d) is a container block that has only non-block inline children
+// We recurse ALL the way down — no early returns on containers.
 // ═══════════════════════════════
 function injectPd(root) {
-  // Remove !important from all inline styles first
   stripImportant(root);
 
-  const walk = (node) => {
-    if (node.nodeType !== 1) return;
-    const tag = node.tagName.toUpperCase();
-    if (["SCRIPT","STYLE","NOSCRIPT","META","LINK","HEAD"].includes(tag)) return;
+  const SKIP = new Set(["SCRIPT","STYLE","NOSCRIPT","META","LINK","HEAD","SVG","CANVAS","VIDEO","AUDIO","IFRAME"]);
+  const TEXT_TAGS = new Set(["H1","H2","H3","H4","H5","H6","P","SPAN","A","LI","TD","TH",
+    "BUTTON","LABEL","STRONG","EM","B","I","U","S","SMALL","SUB","SUP",
+    "FIGCAPTION","CITE","BLOCKQUOTE","CAPTION","DT","DD","SUMMARY",
+    "TIME","MARK","KBD","CODE","PRE","ABBR","ACRONYM"]);
+  const BLOCK_TAGS = new Set(["DIV","SECTION","ARTICLE","HEADER","FOOTER","MAIN","NAV",
+    "ASIDE","FORM","FIELDSET","TABLE","TBODY","THEAD","TFOOT","TR","UL","OL","FIGURE","ADDRESS"]);
 
-    // Images always editable
+  const hasDirectText = (node) => {
+    for (const c of node.childNodes) {
+      if (c.nodeType === 3 && c.textContent.trim().length > 0) return true;
+    }
+    return false;
+  };
+
+  const walk = (node) => {
+    if (!node || node.nodeType !== 1) return;
+    const tag = node.tagName.toUpperCase();
+    if (SKIP.has(tag)) return;
+
+    // Images
     if (tag === "IMG") {
       node.classList.add("pd");
       node.setAttribute("data-t","image");
       return;
     }
 
-    // Count direct text content
-    const directText = Array.from(node.childNodes)
-      .filter(n=>n.nodeType===3)
-      .map(n=>n.textContent.trim())
-      .join("").trim();
-
-    const hasInlineStyle = node.hasAttribute("style") && node.getAttribute("style").trim().length > 0;
-    const isLeafLike = node.children.length === 0 || (node.children.length <= 3 && directText.length > 0);
-    const isSemantic = ["H1","H2","H3","H4","H5","H6","P","SPAN","A","LI","TD","TH",
-                        "BUTTON","LABEL","STRONG","EM","B","I","FIGCAPTION","CITE",
-                        "BLOCKQUOTE","CAPTION","DT","DD","SUMMARY"].includes(tag);
-
-    // Mark as editable if: semantic tag, or has direct text, or is a leaf with style
-    if (isSemantic || directText.length > 0 || (isLeafLike && hasInlineStyle)) {
-      // Don't double-mark ancestors that contain other pd elements
-      const alreadyHasPdChild = node.querySelector(".pd");
-      if (!alreadyHasPdChild) {
-        node.classList.add("pd");
-        // Determine type
-        if (tag === "BUTTON" || (tag === "A" && node.getAttribute("href"))) {
-          node.setAttribute("data-t","button");
-        } else {
-          node.setAttribute("data-t","text");
-        }
-        return; // don't recurse into marked nodes
-      }
+    // Buttons / links with href → button type
+    if (tag === "BUTTON" || (tag === "A" && node.getAttribute("href") && node.getAttribute("href") !== "#")) {
+      node.classList.add("pd");
+      node.setAttribute("data-t","button");
+      // Still recurse for nested spans etc? No — button is leaf-editable
+      return;
     }
 
-    // Also mark DIVs that have ONLY inline text (no block children)
-    if (tag === "DIV" || tag === "SECTION" || tag === "ARTICLE" || tag === "HEADER" || tag === "FOOTER") {
-      const blockChildren = Array.from(node.children).filter(c =>
-        ["DIV","SECTION","ARTICLE","HEADER","FOOTER","UL","OL","TABLE"].includes(c.tagName));
-      if (blockChildren.length === 0 && directText.length > 0) {
+    const directTxt = hasDirectText(node);
+    const isLeaf = node.children.length === 0;
+    const hasStyle = node.hasAttribute("style");
+    const hasClass = node.className && node.className.toString().trim().length > 0;
+
+    // TEXT_TAGS: always mark, but also recurse into children to mark nested elements
+    if (TEXT_TAGS.has(tag)) {
+      node.classList.add("pd");
+      node.setAttribute("data-t","text");
+      // Still recurse — inner spans/strongs may also need marking for fine-grained edits
+      Array.from(node.children).forEach(c => {
+        if (TEXT_TAGS.has(c.tagName.toUpperCase())) walk(c);
+      });
+      return;
+    }
+
+    // BLOCK_TAGS (div, section, article, etc.)
+    if (BLOCK_TAGS.has(tag)) {
+      // If it's a leaf OR has direct text → mark as editable text container
+      if (isLeaf || directTxt) {
         node.classList.add("pd");
         node.setAttribute("data-t","text");
         return;
       }
+      // Has children — check if ALL children are inline/text-like (no nested blocks)
+      const childTags = Array.from(node.children).map(c=>c.tagName.toUpperCase());
+      const allInline = childTags.every(t => TEXT_TAGS.has(t) || ["SPAN","A","STRONG","EM","B","I","BR","IMG"].includes(t));
+      if (allInline && childTags.length > 0) {
+        node.classList.add("pd");
+        node.setAttribute("data-t","text");
+        // Also mark individual children for fine control
+        Array.from(node.children).forEach(walk);
+        return;
+      }
+
+      // Has block children → mark THIS container as editable block (background, padding etc.)
+      // but still recurse to find leaf elements inside
+      node.classList.add("pd");
+      node.setAttribute("data-t","text");
+      Array.from(node.children).forEach(walk);
+      return;
     }
 
+    // Anything else — recurse
     Array.from(node.children).forEach(walk);
   };
 
@@ -523,24 +686,64 @@ function injectPd(root) {
 }
 
 function stripImportant(root) {
+  // Strip from inline styles
   root.querySelectorAll("[style]").forEach(el => {
     const s = el.getAttribute("style");
-    if (s && s.includes("!important")) {
+    if (s && s.includes("important")) {
       el.setAttribute("style", s.replace(/\s*!important/gi, ""));
     }
   });
 }
 
+// Strip !important from CSS string (used on importedCss before injecting into iframe)
+function stripCssImportant(css) {
+  return css.replace(/\s*!important/gi, "");
+}
+
 // ═══════════════════════════════
-// OVERLAY BUILDER
+// FORCE VISIBLE: apply common JS-triggered "visible" classes
+// so scroll-animated elements are fully rendered in the editor
 // ═══════════════════════════════
+function forceVisible() {
+  try {
+    const fdoc = fd();
+    if (!fdoc) return;
+    // Common scroll-animation class names that reveal elements
+    const REVEAL_CLASSES = [
+      "vis","visible","show","shown","active","in","is-visible",
+      "is-active","fade-in","animate","animated","entered","revealed",
+      "aos-animate","swiper-slide-active","slick-active","is-inview"
+    ];
+    // Common hidden class names to remove
+    const HIDE_CLASSES = [
+      "hidden","hide","invisible","opacity-0","is-hidden","off","out"
+    ];
+
+    // Add reveal classes to elements that have their counterpart hidden state
+    fdoc.querySelectorAll('[class]').forEach(el => {
+      const classes = [...el.classList];
+      // If element has a hide-trigger class, add the reveal version
+      HIDE_CLASSES.forEach(hc => {
+        if (classes.includes(hc)) el.classList.remove(hc);
+      });
+    });
+
+    // Also force opacity/transform via inline style override
+    fdoc.querySelectorAll('[class*="tl-item"],[class*="fade"],[class*="slide"],[class*="anim"],[class*="scroll-"],[class*="-hidden"],[class*="js-"]').forEach(el => {
+      if (!el.classList.contains("vis")) el.classList.add("vis");
+      el.style.setProperty("opacity", "1", "important");
+      el.style.setProperty("transform", "none", "important");
+      el.style.setProperty("transition", "none", "important");
+    });
+  } catch(e) {}
+}
 function buildOverlay() {
   const ov = document.getElementById("ov-layer");
   ov.innerHTML = "";
   const fdoc = fd();
   if (!fdoc || !fdoc.body) return;
 
-  // Tag pd elements with index classes
+  // Tag pd elements with index classes for mobile overrides
   sections.forEach(s => {
     const secDom = fdoc.querySelector(`[data-sec="${s.id}"]`);
     if (!secDom) return;
@@ -553,10 +756,10 @@ function buildOverlay() {
     const secDom = fdoc.querySelector(`[data-sec="${s.id}"]`);
     if (!secDom) return;
 
-    const secTop = getTop(secDom, fdoc.body);
-    const secH   = secDom.offsetHeight;
+    const secTop = getTop(secDom);
+    const secH   = getHeight(secDom);
 
-    // Section overlay div
+    // Section overlay
     const secDiv = document.createElement("div");
     secDiv.className = "ov-sec" + (selSecId===s.id?" sel-s":"");
     secDiv.style.cssText = `top:${secTop}px;height:${secH}px;`;
@@ -570,13 +773,12 @@ function buildOverlay() {
       <div class="stb red" title="Delete section" onclick="delSec('${s.id}');event.stopPropagation()"><svg viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></div>
     </div>`;
 
-    // Insert-between button
+    // Insert-between-sections button
     const ibBtn = document.createElement("div");
     ibBtn.className = "ins-btn";
     ibBtn.style.top = (secTop + secH) + "px";
-    ibBtn.innerHTML = `<button onclick="openPicker(${sIdx});event.stopPropagation()"><svg viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>Insert here</button>`;
+    ibBtn.innerHTML = `<button onclick="openPicker(${sIdx});event.stopPropagation()"><svg viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>Insert section here</button>`;
     ov.appendChild(ibBtn);
-
     secDiv.addEventListener("mouseenter", () => ibBtn.classList.add("show"));
     secDiv.addEventListener("mouseleave", () => setTimeout(()=>{ if(!ibBtn.matches(":hover")) ibBtn.classList.remove("show"); }, 150));
     ibBtn.addEventListener("mouseleave", () => ibBtn.classList.remove("show"));
@@ -586,25 +788,57 @@ function buildOverlay() {
       buildOverlay(); showEmptyProps();
     });
 
-    // Element overlays — ALL .pd elements
-    const pdEls = secDom.querySelectorAll(".pd");
-    pdEls.forEach((el, elIdx) => {
-      const elTop  = getTop(el, fdoc.body);
-      const elLeft = getLeft(el, fdoc.body);
-      const elH    = el.offsetHeight || 20;
-      const elW    = el.offsetWidth  || 100;
+    // ── Element overlays ──────────────────────────────────
+    // Compute DOM depth for each pd element so deeper = higher z-index
+    const pdEls = Array.from(secDom.querySelectorAll(".pd"));
 
-      if (elH < 2 || elW < 2) return; // skip invisible
+    function domDepth(el) {
+      let d = 0, cur = el;
+      while (cur && cur !== fdoc.body) { d++; cur = cur.parentElement; }
+      return d;
+    }
+
+    // Build rects for all pd elements
+    // IMPORTANT: top/left must be RELATIVE to secTop/secLeft because
+    // ov-el is a child of ov-sec which already has top:secTop applied.
+    const secLeft = getLeft(secDom);
+
+    const elData = pdEls.map((el, elIdx) => ({
+      el, elIdx,
+      depth: domDepth(el),
+      top:  getTop(el)  - secTop,   // relative to section top
+      left: getLeft(el) - secLeft,  // relative to section left
+      h:    Math.max(getHeight(el), 6),
+      w:    Math.max(getWidth(el),  10),
+    }));
+
+    // Sort: shallower first (rendered first = lower z), deeper last (on top)
+    elData.sort((a, b) => a.depth - b.depth);
+
+    elData.forEach(({ el, elIdx, depth, top, left, h, w }, renderIdx) => {
+      // Skip completely hidden elements
+      if (el.offsetParent === null && el.tagName !== "BODY") {
+        try {
+          const s2 = fdoc.defaultView.getComputedStyle(el);
+          if (s2.display === "none" || s2.visibility === "hidden") return;
+        } catch(e) {}
+      }
 
       const path = `${s.id}:${elIdx}`;
       const isSelEl = selElPath === path;
-      const hasMobOverride = mobileOverrides[path] && Object.keys(mobileOverrides[path]).length > 0;
 
       const elDiv = document.createElement("div");
       elDiv.className = "ov-el" + (isSelEl?" sel-e":"");
-      elDiv.style.cssText = `top:${elTop}px;left:${elLeft}px;width:${elW}px;height:${elH}px;`;
-      if (hasMobOverride) elDiv.style.outline = "1px dashed #4a9de0";
-      elDiv.title = `<${el.tagName.toLowerCase()}> ${el.dataset.t||""}`;
+      // z-index: deeper elements get higher z so they're always clickable
+      elDiv.style.cssText = `top:${top}px;left:${left}px;width:${w}px;height:${h}px;z-index:${10 + depth};`;
+
+      // Tag label on hover
+      const tagLabel = document.createElement("span");
+      tagLabel.style.cssText = `position:absolute;top:0;left:0;background:rgba(232,80,10,.9);color:#fff;font-size:9px;font-family:"DM Mono",monospace;padding:1px 5px;border-radius:0 0 4px 0;pointer-events:none;opacity:0;transition:opacity .1s;white-space:nowrap;z-index:200;line-height:1.5`;
+      tagLabel.textContent = `${el.tagName.toLowerCase()}${el.className&&typeof el.className==="string"&&el.className.trim()?"."+el.className.trim().split(/\s+/)[0]:""}`;
+      elDiv.appendChild(tagLabel);
+      elDiv.addEventListener("mouseenter", ()=>tagLabel.style.opacity="1");
+      elDiv.addEventListener("mouseleave", ()=>tagLabel.style.opacity="0");
 
       elDiv.addEventListener("click", e => {
         e.stopPropagation();
@@ -616,9 +850,9 @@ function buildOverlay() {
       // Image drag-drop
       if (el.tagName === "IMG") {
         elDiv.addEventListener("dragover", e => { e.preventDefault(); elDiv.style.outline="3px solid var(--brand)"; });
-        elDiv.addEventListener("dragleave", () => elDiv.style.outline="");
+        elDiv.addEventListener("dragleave", () => { elDiv.style.outline = isSelEl ? "2px solid var(--brand)" : ""; });
         elDiv.addEventListener("drop", e => {
-          e.preventDefault(); elDiv.style.outline="";
+          e.preventDefault();
           const f = e.dataTransfer.files[0];
           if (f && f.type.startsWith("image/")) { pendImgPath = path; doImgReplace(f); }
         });
@@ -627,19 +861,99 @@ function buildOverlay() {
       secDiv.appendChild(elDiv);
     });
 
+    // ── Insert-between-elements buttons ───────────────────
+    // Show a small "+ Add" pill between every pair of sibling .pd elements
+    // that share the same direct parent
+    const byParent = new Map();
+    pdEls.forEach((el, elIdx) => {
+      const par = el.parentElement;
+      if (!par) return;
+      // Use the element's offsetTop within its parent for ordering
+      if (!byParent.has(par)) byParent.set(par, []);
+      byParent.get(par).push({ el, elIdx });
+    });
+
+    byParent.forEach((children, parent) => {
+      if (children.length < 1) return;
+      // Sort by visual top position
+      children.sort((a, b) => (getTop(a.el) - secTop) - (getTop(b.el) - secTop));
+
+      // Insert button AFTER each child (between children, and after last)
+      children.forEach(({ el, elIdx }, ci) => {
+        const elBottom = getTop(el) - secTop + Math.max(getHeight(el), 6);
+        const elLeft   = getLeft(el) - secLeft;
+        const elW      = Math.max(getWidth(el), 60);
+
+        const addBtn = document.createElement("div");
+        addBtn.style.cssText = `position:absolute;top:${elBottom - 10}px;left:${elLeft}px;width:${elW}px;height:20px;z-index:${200 + domDepth(el)};display:flex;align-items:center;justify-content:center;opacity:0;transition:opacity .15s;pointer-events:none;`;
+
+        const pill = document.createElement("button");
+        pill.style.cssText = `padding:2px 10px;border-radius:10px;border:1px solid var(--brand);background:rgba(14,10,8,.9);color:var(--brand2);font-size:10px;font-weight:600;cursor:pointer;font-family:"DM Sans",sans-serif;display:flex;align-items:center;gap:4px;white-space:nowrap;backdrop-filter:blur(4px);pointer-events:auto`;
+        pill.innerHTML = `<svg viewBox="0 0 24 24" style="width:9px;height:9px;stroke:currentColor;fill:none;stroke-width:3;stroke-linecap:round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>insert`;
+        pill.onclick = (e) => {
+          e.stopPropagation();
+          openInlineInsert(s.id, elIdx, elBottom, elLeft + elW/2);
+        };
+        addBtn.appendChild(pill);
+
+        // Only show pill when mouse is within ~24px of the gap between elements
+        // We track this via the ov-el overlay div for THIS element
+        const triggerZone = document.createElement("div");
+        triggerZone.style.cssText = `position:absolute;top:${elBottom - 16}px;left:${elLeft}px;width:${elW}px;height:32px;z-index:${199 + domDepth(el)};pointer-events:auto;cursor:default;`;
+        triggerZone.addEventListener("mouseenter", () => { addBtn.style.opacity="1"; addBtn.style.pointerEvents="auto"; });
+        triggerZone.addEventListener("mouseleave", (e) => {
+          // Only hide if not moving onto the pill itself
+          setTimeout(() => { if (!addBtn.matches(":hover") && !pill.matches(":hover")) { addBtn.style.opacity="0"; addBtn.style.pointerEvents="none"; } }, 80);
+        });
+        pill.addEventListener("mouseleave", () => {
+          setTimeout(() => { addBtn.style.opacity="0"; addBtn.style.pointerEvents="none"; }, 120);
+        });
+
+        secDiv.appendChild(triggerZone);
+        secDiv.appendChild(addBtn);
+      });
+    });
+
     ov.appendChild(secDiv);
   });
 }
 
-function getTop(el, root) {
-  let t=0, cur=el;
-  while(cur && cur!==root){ t+=cur.offsetTop; cur=cur.offsetParent; }
-  return t;
+// ─── POSITION HELPERS ────────────────────────────────────
+// Returns the element's position relative to the TOP of the iframe document.
+// Strategy: getBoundingClientRect() gives viewport-relative coords.
+// Adding the document's scrollY converts that to document-absolute coords.
+// This works correctly regardless of position:absolute/relative/sticky nesting.
+function getTop(el) {
+  try {
+    const iWin = el.ownerDocument.defaultView;
+    const rect  = el.getBoundingClientRect();
+    return rect.top + iWin.scrollY;
+  } catch(e) {
+    // fallback: offsetTop traversal
+    let t = 0, cur = el;
+    while (cur && cur.tagName && cur.tagName !== "BODY") { t += cur.offsetTop || 0; cur = cur.offsetParent; }
+    return t;
+  }
 }
-function getLeft(el, root) {
-  let l=0, cur=el;
-  while(cur && cur!==root){ l+=cur.offsetLeft; cur=cur.offsetParent; }
-  return l;
+
+function getLeft(el) {
+  try {
+    const iWin = el.ownerDocument.defaultView;
+    const rect  = el.getBoundingClientRect();
+    return rect.left + iWin.scrollX;
+  } catch(e) {
+    let l = 0, cur = el;
+    while (cur && cur.tagName && cur.tagName !== "BODY") { l += cur.offsetLeft || 0; cur = cur.offsetParent; }
+    return l;
+  }
+}
+
+function getHeight(el) {
+  return el.getBoundingClientRect().height || el.offsetHeight || 10;
+}
+
+function getWidth(el) {
+  return el.getBoundingClientRect().width || el.offsetWidth || 20;
 }
 
 // ═══════════════════════════════
@@ -665,25 +979,94 @@ function cssProp(js) {
   return js.replace(/([A-Z])/g, m=>"-"+m.toLowerCase());
 }
 
-// ═══════════════════════════════
+// ═══════════════════════════════════════════════════
 // APPLY TO ELEMENT
-// ═══════════════════════════════
+// Desktop mode → writes directly to el.style (inline)
+// Mobile mode  → stores in mobileOverrides, injects
+//                @media(max-width:600px) CSS into iframe
+//                Does NOT touch el.style (preserves desktop)
+// ═══════════════════════════════════════════════════
 function applyEl(secId, elIdx, fn) {
   const el = getEl(secId, elIdx);
   if (!el) return;
+
   if (viewport === "mobile") {
-    // Store in mobile overrides
+    // Capture which props change by running fn on a proxy
+    const changed = {};
+    const proxy = new Proxy(el.style, {
+      set(target, prop, val) {
+        changed[prop] = val;
+        return true; // don't write to real style
+      },
+      get(target, prop) {
+        return target[prop]; // read real computed values
+      }
+    });
+    // Run fn with proxy — captures intent without touching DOM
+    try { fn({ style: proxy }); } catch(e) {}
+
+    // Also handle direct assignments like el.innerText = ...
+    // For those we need a different approach — just apply visually
+    // but mark as mobile-only via a class
     const key = `${secId}:${elIdx}`;
-    // We still apply visually and collect what changed
-    fn(el);
-    syncHtml(secId);
-    // Re-render to apply @media overrides
-    setTimeout(() => { syncHeight(); buildOverlay(); }, 50);
+    if (!mobileOverrides[key]) mobileOverrides[key] = {};
+
+    if (Object.keys(changed).length > 0) {
+      // Store in mobileOverrides
+      Object.assign(mobileOverrides[key], changed);
+      // Inject live @media CSS into iframe without full re-render
+      injectMobileCss();
+    } else {
+      // fn does something other than style (e.g. innerText change)
+      // Apply directly — mobile text changes are stored in section HTML
+      forceStripImportant(el);
+      fn(el);
+      syncHtml(secId);
+    }
   } else {
+    // Desktop: write directly to inline style
+    forceStripImportant(el);
     fn(el);
     syncHtml(secId);
-    setTimeout(() => { syncHeight(); buildOverlay(); }, 50);
   }
+
+  setTimeout(() => { syncHeight(); buildOverlay(); }, 50);
+}
+
+// Strip !important from a single element's inline style
+function forceStripImportant(el) {
+  const s = el.getAttribute("style");
+  if (!s || !s.includes("important")) return;
+  el.setAttribute("style", s.replace(/\s*!important/gi, ""));
+}
+
+// Inject/update the mobile @media CSS block live into the iframe
+function injectMobileCss() {
+  try {
+    const fdoc = fd();
+    if (!fdoc) return;
+
+    let rules = "";
+    for (const [key, props] of Object.entries(mobileOverrides)) {
+      const [sid, eidx] = key.split(":");
+      if (!Object.keys(props).length) continue;
+      const decls = Object.entries(props)
+        .map(([p, v]) => `${cssProp(p)}:${v}!important`)
+        .join(";");
+      rules += `[data-sec="${sid}"] .pd-${eidx}{${decls}}`;
+    }
+
+    const mediaBlock = `@media(max-width:600px){${rules}}`;
+
+    // Find or create our mobile style tag in the iframe
+    let mobileStyle = fdoc.getElementById("pd-mobile-css");
+    if (!mobileStyle) {
+      mobileStyle = fdoc.createElement("style");
+      mobileStyle.id = "pd-mobile-css";
+      fdoc.head.appendChild(mobileStyle);
+    }
+    mobileStyle.textContent = mediaBlock;
+  } catch(e) {}
 }
 
 // ═══════════════════════════════
@@ -699,18 +1082,48 @@ function buildProps(el, secId, elIdx) {
   const tag  = el.tagName.toLowerCase();
   const cs   = el.ownerDocument.defaultView.getComputedStyle(el);
   const isMob = viewport === "mobile";
-
-  const gv  = p => el.style[p]||"";
-  const gc  = p => rgbHex(cs[p])||"#000000";
-  const gci = p => rgbHex(cs[p])||"#ffffff";
-  const gi  = (p,d=0) => parseInt(gv(p)||cs[p])||d;
   const path = `${secId}:${elIdx}`;
+
+  // Mobile overrides stored separately — read them if in mobile mode
+  const mobVals = mobileOverrides[path] || {};
+  const getMob  = (jsProp) => mobVals[jsProp] || "";
+
+  // Value reader: in mobile mode, prefer stored mobile override; fall back to desktop inline style; then computed
+  const gv  = p => (isMob && getMob(p)) || el.style[p] || "";
+  const gc  = p => rgbHex((isMob && getMob(p)) || cs[p]) || "#000000";
+  const gci = p => rgbHex((isMob && getMob(p)) || cs[p]) || "#ffffff";
+  const gi  = (p, d=0) => parseInt(gv(p) || cs[p]) || d;
   const mobLabel = isMob ? `<span class="mob-indicator">MOBILE</span>` : "";
 
   let out = `<div class="pg">
     <div class="pgt">Element ${mobLabel}</div>
-    <span class="tbadge">&lt;${tag}&gt; · ${type}</span>
+    <span class="tbadge">&lt;${tag}&gt;</span>
+    ${el.className && typeof el.className === "string" && el.className.trim() ? `<div style="margin-top:5px;font-size:10px;color:var(--text3);font-family:'DM Mono',monospace;word-break:break-all">.${[...el.classList].filter(c=>c!=="pd"&&!c.startsWith("pd-")).join(' .')}</div>` : ""}
+    ${el.id ? `<div style="font-size:10px;color:var(--text3);font-family:'DM Mono',monospace">#${el.id}</div>` : ""}
   </div>`;
+
+  // If this element contains other .pd children, show quick-select buttons for them
+  const pdChildren = Array.from(el.querySelectorAll(".pd"));
+  if (pdChildren.length > 0) {
+    const fdoc2 = el.ownerDocument;
+    const secDom2 = fdoc2.querySelector(`[data-sec="${secId}"]`);
+    if (secDom2) {
+      const allPd = Array.from(secDom2.querySelectorAll(".pd"));
+      const childLinks = pdChildren.slice(0, 6).map(child => {
+        const childIdx = allPd.indexOf(child);
+        if (childIdx === -1) return "";
+        const cTag = child.tagName.toLowerCase();
+        const cType = child.dataset.t || "text";
+        const icon = cTag === "img" ? `<svg viewBox="0 0 24 24" style="width:11px;height:11px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>` :
+                     cTag === "button" ? `<svg viewBox="0 0 24 24" style="width:11px;height:11px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round"><rect x="2" y="8" width="20" height="8" rx="4"/></svg>` :
+                     `<svg viewBox="0 0 24 24" style="width:11px;height:11px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="15" y2="18"/></svg>`;
+        return `<button style="padding:3px 7px;border:1px solid var(--border);border-radius:5px;background:var(--surface);color:var(--text2);font-size:10px;cursor:pointer;font-family:'DM Mono',monospace;display:flex;align-items:center;gap:4px;transition:all .1s" onmouseover="this.style.borderColor='var(--brand)';this.style.color='var(--brand2)'" onmouseout="this.style.borderColor='var(--border)';this.style.color='var(--text2)'" onclick="(function(){var el=getEl('${secId}',${childIdx});if(el){selElPath='${secId}:${childIdx}';buildOverlay();buildProps(el,'${secId}',${childIdx});}})()">${icon}&lt;${cTag}&gt;</button>`;
+      }).join("");
+      if (childLinks) {
+        out += `<div class="pg"><div class="pgt" style="margin-bottom:6px">Child elements</div><div style="display:flex;flex-wrap:wrap;gap:4px">${childLinks}</div></div>`;
+      }
+    }
+  }
 
   // ── TEXT ──────────────────────────────────────────────
   if (type === "text" || type === "div") {
@@ -792,6 +1205,26 @@ function buildProps(el, secId, elIdx) {
       <div class="pr"><span class="pl">Radius</span>
         <div class="rw"><input type="range" min="0" max="50" step="1" value="${br}" oninput="applyEl('${secId}',${elIdx},el=>el.style.borderRadius=this.value+'px');this.nextSibling.textContent=this.value+'px'"><span class="rv">${br}px</span></div>
       </div>
+    </div>
+    <div class="pdiv"></div>
+    <div class="pg"><div class="pgt">Layout</div>
+      <div class="pr"><span class="pl">Display</span>
+        <div class="segs">
+          ${["block","flex","inline","inline-block","none"].map(d=>`<button class="seg${(gv("display")||cs.display||"block")===d?" on":""}" onclick="applyEl('${secId}',${elIdx},el=>el.style.display='${d}');seg(this)" style="font-size:9.5px">${d}</button>`).join("")}
+        </div>
+      </div>
+      <div class="pr"><span class="pl">Width</span>
+        <input class="pi pi-sm" value="${gv("width")||cs.width||"auto"}" placeholder="auto / 100% / 200px" oninput="applyEl('${secId}',${elIdx},el=>el.style.width=this.value)">
+      </div>
+      <div class="pr"><span class="pl">Max-w.</span>
+        <input class="pi pi-sm" value="${gv("maxWidth")||""}" placeholder="none / 600px" oninput="applyEl('${secId}',${elIdx},el=>el.style.maxWidth=this.value)">
+      </div>
+      <div class="pr"><span class="pl">Margin T</span>
+        <input class="pi pi-sm" type="number" value="${parseInt(cs.marginTop)||0}" oninput="applyEl('${secId}',${elIdx},el=>el.style.marginTop=this.value+'px')">
+      </div>
+      <div class="pr"><span class="pl">Margin B</span>
+        <input class="pi pi-sm" type="number" value="${parseInt(cs.marginBottom)||0}" oninput="applyEl('${secId}',${elIdx},el=>el.style.marginBottom=this.value+'px')">
+      </div>
     </div>`;
   }
 
@@ -863,24 +1296,43 @@ function buildProps(el, secId, elIdx) {
 
   // ── IMAGE ──────────────────────────────────────────────
   else if (type === "image") {
-    const imgW  = parseInt(gv("width")||100);
-    const imgBr = gi("borderRadius",0);
-    const imgBw = gi("borderWidth",0);
-    const imgBs = gv("borderStyle")||"solid";
-    const imgBc = rgbHex(cs.borderColor)||"#000000";
-    const op    = parseFloat(gv("opacity")||1);
-    const sh    = gv("boxShadow")||"none";
+    // Read width from inline style OR compute from offsetWidth ratio
+    const imgWraw = el.style.width || "";
+    const imgW    = imgWraw ? parseInt(imgWraw) : Math.round((el.offsetWidth / (el.parentElement?.offsetWidth||el.offsetWidth)) * 100);
+    const imgBr   = gi("borderRadius",0);
+    const imgBw   = gi("borderWidth",0);
+    const imgBs   = el.style.borderStyle||"solid";
+    const imgBc   = rgbHex(cs.borderColor)||"#000000";
+    const op      = parseFloat(el.style.opacity||"1");
+    const sh      = el.style.boxShadow||"none";
+    // Parent container alignment (margin auto = center, margin-left auto = right, etc.)
+    const par     = el.parentElement;
+    const parAlign = par ? (par.style.textAlign || cs.textAlign || "left") : "left";
+    const imgMarL  = el.style.marginLeft||"";
+    const imgMarR  = el.style.marginRight||"";
+    let curAlign = "left";
+    if (imgMarL==="auto" && imgMarR==="auto") curAlign="center";
+    else if (imgMarL==="auto") curAlign="right";
+    else if (parAlign==="center") curAlign="center";
+    else if (parAlign==="right") curAlign="right";
 
     out += `
     <div class="pg"><div class="pgt">Image</div>
       <button class="img-btn" onclick="pendImgPath='${path}';document.getElementById('img-in').click()">
         <svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>Replace image</button>
-      <div style="font-size:11px;color:var(--text3)">Or drag image file onto canvas</div>
+      <div style="font-size:11px;color:var(--text3);margin-top:2px">Or drag an image onto the canvas</div>
     </div>
     <div class="pdiv"></div>
-    <div class="pg"><div class="pgt">Size & Position</div>
+    <div class="pg"><div class="pgt">Size &amp; Align</div>
       <div class="pr"><span class="pl">Width</span>
         <div class="rw"><input type="range" min="5" max="100" step="1" value="${imgW}" oninput="applyEl('${secId}',${elIdx},el=>el.style.width=this.value+'%');this.nextSibling.textContent=this.value+'%'"><span class="rv">${imgW}%</span></div>
+      </div>
+      <div class="pr"><span class="pl">Align</span>
+        <div class="segs">
+          <button class="seg${curAlign==="left"?" on":""}" onclick="applyEl('${secId}',${elIdx},el=>{el.style.display='block';el.style.marginLeft='0';el.style.marginRight='auto';if(el.parentElement)el.parentElement.style.textAlign='left'});seg(this)">L</button>
+          <button class="seg${curAlign==="center"?" on":""}" onclick="applyEl('${secId}',${elIdx},el=>{el.style.display='block';el.style.marginLeft='auto';el.style.marginRight='auto';if(el.parentElement)el.parentElement.style.textAlign='center'});seg(this)">C</button>
+          <button class="seg${curAlign==="right"?" on":""}" onclick="applyEl('${secId}',${elIdx},el=>{el.style.display='block';el.style.marginLeft='auto';el.style.marginRight='0';if(el.parentElement)el.parentElement.style.textAlign='right'});seg(this)">R</button>
+        </div>
       </div>
       <div class="pr"><span class="pl">Opacity</span>
         <div class="rw"><input type="range" min="0" max="1" step="0.05" value="${op}" oninput="applyEl('${secId}',${elIdx},el=>el.style.opacity=this.value);this.nextSibling.textContent=Math.round(this.value*100)+'%'"><span class="rv">${Math.round(op*100)}%</span></div>
@@ -889,7 +1341,7 @@ function buildProps(el, secId, elIdx) {
     <div class="pdiv"></div>
     <div class="pg"><div class="pgt">Border</div>
       <div class="pr"><span class="pl">Width</span>
-        <div class="rw"><input type="range" min="0" max="10" step="1" value="${imgBw}" oninput="applyEl('${secId}',${elIdx},el=>{el.style.borderWidth=this.value+'px';el.style.borderStyle='solid'});this.nextSibling.textContent=this.value+'px'"><span class="rv">${imgBw}px</span></div>
+        <div class="rw"><input type="range" min="0" max="10" step="1" value="${imgBw}" oninput="applyEl('${secId}',${elIdx},el=>{el.style.borderWidth=this.value+'px';if(parseInt(this.value)>0)el.style.borderStyle='solid'});this.nextSibling.textContent=this.value+'px'"><span class="rv">${imgBw}px</span></div>
       </div>
       <div class="pr"><span class="pl">Style</span>
         <div class="segs">${["solid","dashed","dotted"].map(s=>`<button class="seg${imgBs===s?" on":""}" onclick="applyEl('${secId}',${elIdx},el=>el.style.borderStyle='${s}');seg(this)">${s[0].toUpperCase()+s.slice(1)}</button>`).join("")}</div>
@@ -914,10 +1366,11 @@ function buildProps(el, secId, elIdx) {
   }
 
   // ── UNIVERSAL: Padding + Delete ────────────────────────
-  const pt2 = parseInt(cs.paddingTop)||0;
-  const pb3 = parseInt(cs.paddingBottom)||0;
-  const pl2 = parseInt(cs.paddingLeft)||0;
-  const pr2 = parseInt(cs.paddingRight)||0;
+  // Read padding from inline style first (actual editable value), fall back to computed
+  const pt2 = parseInt(el.style.paddingTop)  || parseInt(cs.paddingTop)  || 0;
+  const pb3 = parseInt(el.style.paddingBottom)|| parseInt(cs.paddingBottom)|| 0;
+  const pl2 = parseInt(el.style.paddingLeft)  || parseInt(cs.paddingLeft) || 0;
+  const pr2 = parseInt(el.style.paddingRight) || parseInt(cs.paddingRight)|| 0;
 
   out += `
   <div class="pdiv"></div>
@@ -928,14 +1381,85 @@ function buildProps(el, secId, elIdx) {
       <div><label>Left</label><input class="pi pi-sm" type="number" min="0" max="200" value="${pl2}" oninput="applyEl('${secId}',${elIdx},el=>el.style.paddingLeft=this.value+'px')"></div>
       <div><label>Right</label><input class="pi pi-sm" type="number" min="0" max="200" value="${pr2}" oninput="applyEl('${secId}',${elIdx},el=>el.style.paddingRight=this.value+'px')"></div>
     </div>
-  </div>
-  <div class="pdiv"></div>
+  </div>`;
+
+  // Mobile overrides summary — show what's been stored for this element
+  const mobEntries = Object.entries(mobVals);
+  if (mobEntries.length > 0) {
+    out += `<div class="pdiv"></div>
+  <div class="pg">
+    <div class="pgt" style="display:flex;align-items:center;justify-content:space-between">
+      <span>Mobile overrides</span>
+      <button style="padding:2px 8px;border:1px solid rgba(232,80,10,.3);border-radius:5px;background:rgba(232,80,10,.08);color:var(--brand2);font-size:10px;cursor:pointer;font-family:'DM Sans',sans-serif" onclick="clearMobileEl('${secId}',${elIdx})">Clear all</button>
+    </div>
+    <div style="margin-top:8px;display:flex;flex-direction:column;gap:3px">
+    ${mobEntries.map(([p,v])=>`<div style="display:flex;align-items:center;justify-content:space-between;font-size:11px">
+      <span style="color:var(--text3);font-family:'DM Mono',monospace">${cssProp(p)}</span>
+      <span style="color:var(--brand2);font-family:'DM Mono',monospace;display:flex;align-items:center;gap:6px">
+        ${v}
+        <span style="cursor:pointer;color:var(--text3);font-size:13px" onclick="clearMobileElProp('${secId}',${elIdx},'${p}')" title="Remove">×</span>
+      </span>
+    </div>`).join("")}
+    </div>
+  </div>`;
+  } else if (isMob) {
+    out += `<div class="pdiv"></div>
+  <div style="font-size:11px;color:var(--text3);text-align:center;padding:8px 0;line-height:1.6">No mobile overrides yet.<br>Changes here apply only at ≤600px.</div>`;
+  }
+
+  out += `<div class="pdiv"></div>
+  <button class="dup-btn" onclick="duplicateEl('${secId}',${elIdx})">
+    <svg viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+    Duplicate element
+  </button>
   <button class="del-btn" onclick="deleteEl('${secId}',${elIdx})">
     <svg viewBox="0 0 24 24"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/><path d="M10 11v6"/><path d="M14 11v6"/><path d="M9 6V4a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2"/></svg>
     Delete element
   </button>`;
 
   pb.innerHTML = out;
+}
+
+// ═══════════════════════════════
+// MOBILE OVERRIDE MANAGEMENT
+// ═══════════════════════════════
+function clearMobileEl(secId, elIdx) {
+  const key = `${secId}:${elIdx}`;
+  delete mobileOverrides[key];
+  injectMobileCss();
+  // Rebuild props panel
+  const el = getEl(secId, elIdx);
+  if (el) buildProps(el, secId, elIdx);
+  notify("Mobile overrides cleared");
+}
+
+function clearMobileElProp(secId, elIdx, prop) {
+  const key = `${secId}:${elIdx}`;
+  if (mobileOverrides[key]) {
+    delete mobileOverrides[key][prop];
+    if (!Object.keys(mobileOverrides[key]).length) delete mobileOverrides[key];
+  }
+  injectMobileCss();
+  const el = getEl(secId, elIdx);
+  if (el) buildProps(el, secId, elIdx);
+}
+
+// ═══════════════════════════════
+// DUPLICATE ELEMENT
+// ═══════════════════════════════
+function duplicateEl(secId, elIdx) {
+  snap();
+  const el = getEl(secId, elIdx);
+  if (!el) return;
+  const clone = el.cloneNode(true);
+  // Clear pd-N index classes so overlay rebuilds cleanly
+  clone.className = [...clone.classList].filter(c => !c.startsWith("pd-")).join(" ");
+  // Insert after the original
+  el.parentNode.insertBefore(clone, el.nextSibling);
+  syncHtml(secId);
+  selElPath = null;
+  setTimeout(() => { syncHeight(); buildOverlay(); }, 60);
+  notify("✓ Element duplicated");
 }
 
 // ═══════════════════════════════
@@ -995,21 +1519,103 @@ function dupSec(id) {
   notify("Duplicated");
 }
 
-function insBlock(type) {
+function insBlock(type, secId, afterElIdx) {
   snap();
   const id="blk_"+Date.now();
-  let html="";
-  if(type==="image") html=`<div style="padding:20px;text-align:center;background:#fff"><img class="pd" data-t="image" src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 300 180'%3E%3Crect width='300' height='180' fill='%23f3f4f6'/%3E%3Crect x='90' y='40' width='120' height='80' rx='6' fill='%23d1d5db'/%3E%3Ccircle cx='120' cy='65' r='12' fill='%23aaa'/%3E%3Ctext x='150' y='165' text-anchor='middle' fill='%23999' font-size='13' font-family='sans-serif'%3EClick to upload%3C/text%3E%3C/svg%3E" style="max-width:100%;border-radius:8px;cursor:pointer;display:block;margin:0 auto" alt="Image"></div>`;
-  else if(type==="text") html=`<div style="padding:20px 32px;background:#fff"><p class="pd" data-t="text" style="font-size:16px;color:#1a1a1a;line-height:1.7">Click to edit this text block.</p></div>`;
-  else if(type==="button") html=`<div style="padding:20px 32px;text-align:center;background:#fff"><button class="pd" data-t="button" style="background:#E8500A;color:#fff;border:none;padding:13px 32px;border-radius:8px;font-size:15px;font-weight:600;cursor:pointer" data-href="#">Button Text</button></div>`;
-  else if(type==="divider") html=`<div style="padding:16px 28px;background:#fff"><hr style="border:none;border-top:2px solid #e5e5e5"></div>`;
+  let newHtml="";
+  if(type==="image") newHtml=`<img class="pd" data-t="image" src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 300 180'%3E%3Crect width='300' height='180' fill='%23f3f4f6'/%3E%3Crect x='90' y='40' width='120' height='80' rx='6' fill='%23d1d5db'/%3E%3Ccircle cx='120' cy='65' r='12' fill='%23aaa'/%3E%3Ctext x='150' y='165' text-anchor='middle' fill='%23999' font-size='13' font-family='sans-serif'%3EClick to upload%3C/text%3E%3C/svg%3E" style="max-width:100%;border-radius:8px;cursor:pointer;display:block;margin:8px auto" alt="Image">`;
+  else if(type==="text") newHtml=`<p class="pd" data-t="text" style="font-size:16px;color:#1a1a1a;line-height:1.7;padding:8px 0">Click to edit this text.</p>`;
+  else if(type==="h2") newHtml=`<h2 class="pd" data-t="text" style="font-size:24px;font-weight:700;color:#1a1a1a;padding:8px 0">New Heading</h2>`;
+  else if(type==="button") newHtml=`<button class="pd" data-t="button" style="background:#E8500A;color:#fff;border:none;padding:13px 28px;border-radius:8px;font-size:15px;font-weight:600;cursor:pointer;margin:8px 0" data-href="#">Button</button>`;
+  else if(type==="divider") newHtml=`<hr style="border:none;border-top:2px solid #e5e5e5;margin:12px 0">`;
 
+  // If secId is provided, insert inline inside that section after afterElIdx
+  if (secId) {
+    const fdoc = fd();
+    const secDom = fdoc.querySelector(`[data-sec="${secId}"]`);
+    if (secDom) {
+      const pdEls = secDom.querySelectorAll(".pd");
+      const refEl = pdEls[afterElIdx];
+      const tmp = fdoc.createElement("div");
+      tmp.innerHTML = newHtml;
+      const newNode = tmp.firstElementChild || tmp.firstChild;
+      if (refEl && newNode) {
+        refEl.parentNode.insertBefore(newNode, refEl.nextSibling);
+        syncHtml(secId);
+        setTimeout(()=>{ buildOverlay(); notify("✓ Element inserted"); }, 50);
+        return;
+      }
+    }
+  }
+
+  // Fallback: insert as new section block
   const afterIdx = insertAfterIdx != null ? insertAfterIdx : sections.length-1;
-  T["_blk_"+id]={label:type+" block",html};
-  sections.splice(afterIdx+1,0,{id,type:"_blk_"+id,label:type+" block",html});
+  const wrapHtml = `<div style="padding:12px 28px;background:#fff">${newHtml}</div>`;
+  T["_blk_"+id]={label:type+" block",html:wrapHtml};
+  sections.splice(afterIdx+1,0,{id,type:"_blk_"+id,label:type+" block",html:wrapHtml});
   renderPage();
   notify("✓ Block inserted");
   insertAfterIdx=null;
+}
+
+// Floating inline-insert menu: appears at cursor position inside section
+function openInlineInsert(secId, afterElIdx, top, centerX) {
+  // Remove existing
+  const existing = document.getElementById("inline-insert-menu");
+  if (existing) existing.remove();
+
+  const canArea = document.getElementById("can-area");
+  const pfwRect = document.getElementById("pfw").getBoundingClientRect();
+  const canRect = canArea.getBoundingClientRect();
+
+  // Convert iframe-relative top to can-area scroll position
+  const frameEl = document.getElementById("page-frame");
+  const frameRect = frameEl.getBoundingClientRect();
+  const absoluteTop = frameRect.top - canRect.top + canArea.scrollTop + top;
+  const absoluteLeft = frameRect.left - canRect.left + centerX;
+
+  const menu = document.createElement("div");
+  menu.id = "inline-insert-menu";
+  menu.style.cssText = `position:absolute;top:${absoluteTop}px;left:${absoluteLeft}px;transform:translateX(-50%);z-index:9999;background:var(--bg2);border:1px solid var(--border2);border-radius:10px;padding:8px;display:flex;gap:6px;flex-wrap:wrap;box-shadow:0 8px 32px rgba(0,0,0,.4);backdrop-filter:blur(8px);max-width:320px`;
+
+  const items = [
+    {type:"text",    icon:`<polyline points="4 7 4 4 20 4 20 7"/><line x1="9" y1="20" x2="15" y2="20"/><line x1="12" y1="4" x2="12" y2="20"/>`, label:"Text"},
+    {type:"h2",      icon:`<polyline points="4 7 4 4 20 4 20 7"/><line x1="9" y1="20" x2="15" y2="20"/><line x1="12" y1="4" x2="12" y2="20"/>`, label:"Heading"},
+    {type:"image",   icon:`<rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/>`, label:"Image"},
+    {type:"button",  icon:`<rect x="2" y="8" width="20" height="8" rx="4"/>`, label:"Button"},
+    {type:"divider", icon:`<line x1="3" y1="12" x2="21" y2="12"/>`, label:"Divider"},
+  ];
+
+  items.forEach(({type, icon, label}) => {
+    const btn = document.createElement("button");
+    btn.style.cssText = `display:flex;flex-direction:column;align-items:center;gap:4px;padding:8px 10px;border:1px solid var(--border);border-radius:8px;background:var(--surface);color:var(--text2);cursor:pointer;font-family:"DM Sans",sans-serif;font-size:11px;transition:all .12s;min-width:52px`;
+    btn.innerHTML = `<svg viewBox="0 0 24 24" style="width:16px;height:16px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round">${icon}</svg>${label}`;
+    btn.onmouseover = () => { btn.style.borderColor="var(--brand)"; btn.style.color="var(--brand2)"; btn.style.background="rgba(232,80,10,.08)"; };
+    btn.onmouseout  = () => { btn.style.borderColor="var(--border)"; btn.style.color="var(--text2)"; btn.style.background="var(--surface)"; };
+    btn.onclick = (e) => {
+      e.stopPropagation();
+      menu.remove();
+      insBlock(type, secId, afterElIdx);
+    };
+    menu.appendChild(btn);
+  });
+
+  // Close button
+  const closeBtn = document.createElement("button");
+  closeBtn.style.cssText = `position:absolute;top:4px;right:4px;width:18px;height:18px;border:none;background:none;color:var(--text3);cursor:pointer;font-size:14px;line-height:1;padding:0;display:flex;align-items:center;justify-content:center`;
+  closeBtn.textContent = "×";
+  closeBtn.onclick = () => menu.remove();
+  menu.appendChild(closeBtn);
+
+  canArea.appendChild(menu);
+
+  // Auto-close on outside click
+  setTimeout(() => {
+    document.addEventListener("click", function handler() {
+      menu.remove();
+      document.removeEventListener("click", handler);
+    }, { once: true });
+  }, 100);
 }
 
 // ═══════════════════════════════
@@ -1046,38 +1652,63 @@ function loadHtml() {
 
   const parser=new DOMParser();
   const doc=parser.parseFromString(raw,"text/html");
-  doc.querySelectorAll("script").forEach(s=>s.remove());
 
-  // Collect CSS
-  importedCss=Array.from(doc.querySelectorAll("style")).map(s=>s.textContent).join("\n");
+  // Collect scripts BEFORE removing them from DOM (we'll re-inject into iframe)
+  importedScripts = [];
+  doc.querySelectorAll("script").forEach(s => {
+    if (s.src) {
+      importedScripts.push({ src: s.src, code: null });
+    } else if (s.textContent.trim()) {
+      importedScripts.push({ src: null, code: s.textContent });
+    }
+    s.remove(); // remove from parsed DOM so they don't run in DOMParser context
+  });
 
-  // Strip !important from inline styles before injecting
-  const body=doc.body;
-  body.querySelectorAll("[style]").forEach(el=>{
-    const s=el.getAttribute("style");
-    if(s) el.setAttribute("style",s.replace(/\s*!important/gi,""));
+  // Collect CSS — strip !important so our editor can override
+  importedCss = stripCssImportant(
+    Array.from(doc.querySelectorAll("style")).map(s=>s.textContent).join("\n")
+  );
+
+  // Also collect linked stylesheets as @import hints (can't fetch cross-origin but preserve src)
+  doc.querySelectorAll("link[rel='stylesheet']").forEach(l => {
+    if (l.href) importedCss += `\n/* External: ${l.href} */`;
+  });
+
+  // Strip !important from inline styles
+  const body = doc.body;
+  body.querySelectorAll("[style]").forEach(el => {
+    const s = el.getAttribute("style");
+    if (s) el.setAttribute("style", s.replace(/\s*!important/gi, ""));
+  });
+
+  // Also: convert position:fixed/sticky to position:relative in inline styles
+  body.querySelectorAll("[style]").forEach(el => {
+    const s = el.getAttribute("style") || "";
+    if (/position\s*:\s*(fixed|sticky)/i.test(s)) {
+      el.setAttribute("style", s.replace(/position\s*:\s*(fixed|sticky)/gi, "position:relative"));
+    }
   });
 
   injectPd(body);
 
-  const kids=Array.from(body.children).filter(c=>c.innerHTML.trim()||c.textContent.trim());
-  sections=[];
+  const kids = Array.from(body.children).filter(c => c.innerHTML.trim() || c.textContent.trim());
+  sections = [];
 
-  if(!kids.length){
-    const id="sec_imp_"+Date.now();
-    T["_imp_"+id]={label:"Imported",html:body.innerHTML};
-    sections=[{id,type:"_imp_"+id,label:"Imported",html:body.innerHTML}];
+  if (!kids.length) {
+    const id = "sec_imp_" + Date.now();
+    T["_imp_"+id] = { label:"Imported", html:body.innerHTML };
+    sections = [{ id, type:"_imp_"+id, label:"Imported", html:body.innerHTML }];
   } else {
-    kids.forEach((child,i)=>{
-      const id="sec_imp_"+Date.now()+"_"+i;
-      T["_imp_"+id]={label:"Section "+(i+1),html:child.outerHTML};
-      sections.push({id,type:"_imp_"+id,label:"Section "+(i+1)});
+    kids.forEach((child, i) => {
+      const id = "sec_imp_" + Date.now() + "_" + i;
+      T["_imp_"+id] = { label:"Section "+(i+1), html:child.outerHTML };
+      sections.push({ id, type:"_imp_"+id, label:"Section "+(i+1) });
     });
   }
 
   renderPage();
   document.querySelectorAll(".tab")[0].click();
-  notify("✓ "+sections.length+" sections loaded");
+  notify("✓ " + sections.length + " sections loaded" + (importedScripts.length ? ` · ${importedScripts.length} scripts preserved` : ""));
 }
 
 // ═══════════════════════════════
@@ -1133,10 +1764,17 @@ function toggleTheme(){
 // ═══════════════════════════════
 // PREVIEW
 // ═══════════════════════════════
+function buildScriptTags(forExport=false) {
+  return importedScripts.map(sc => {
+    if (sc.src) return `<script src="${sc.src}"><\/script>`;
+    return `<script>${sc.code}<\/script>`;
+  }).join("\n");
+}
+
 function updatePv(){
   const html=sections.map(s=>getHtml(s)).join("\n");
-  // Apply !important to all text formatting on export/preview
-  document.getElementById("pv-iframe").srcdoc=`<!DOCTYPE html><html><head><meta charset="UTF-8"><style>*{box-sizing:border-box;margin:0;padding:0}body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}img{max-width:100%;height:auto}${importedCss}</style></head><body>${html}</body></html>`;
+  const scripts = buildScriptTags();
+  document.getElementById("pv-iframe").srcdoc=`<!DOCTYPE html><html><head><meta charset="UTF-8"><style>*{box-sizing:border-box;margin:0;padding:0}body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}img{max-width:100%;height:auto}${importedCss}</style></head><body>${html}${scripts}</body></html>`;
 }
 function setPv(w,btn){
   document.getElementById("pv-iframe").style.width=w;
@@ -1204,6 +1842,25 @@ document.addEventListener("keydown",e=>{
 function notify(msg){const n=document.getElementById("notify");n.textContent=msg;n.classList.add("show");clearTimeout(n._t);n._t=setTimeout(()=>n.classList.remove("show"),2400);}
 function rgbHex(rgb){if(!rgb||rgb==="transparent"||rgb==="rgba(0, 0, 0, 0)")return null;if(rgb.startsWith("#"))return rgb;const m=rgb.match(/rgba?\((\d+),\s*(\d+),\s*(\d+)/);if(!m)return null;return "#"+[m[1],m[2],m[3]].map(x=>parseInt(x).toString(16).padStart(2,"0")).join("");}
 function seg(btn){btn.closest(".segs").querySelectorAll(".seg").forEach(b=>b.classList.remove("on"));btn.classList.add("on");}
+
+// ═══════════════════════════════
+// EDITOR MODE TOGGLE
+// ═══════════════════════════════
+let editorModeOn = true;
+function toggleEditorMode(btn) {
+  editorModeOn = !editorModeOn;
+  if (editorModeOn) {
+    document.body.classList.remove("no-edit");
+    btn.classList.add("active");
+    btn.innerHTML = `<svg viewBox="0 0 24 24"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>Edit`;
+    notify("Editor mode ON");
+  } else {
+    document.body.classList.add("no-edit");
+    btn.classList.remove("active");
+    btn.innerHTML = `<svg viewBox="0 0 24 24"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>Preview`;
+    notify("Editor mode OFF — clean page view");
+  }
+}
 
 // ═══════════════════════════════
 // RESTORE
